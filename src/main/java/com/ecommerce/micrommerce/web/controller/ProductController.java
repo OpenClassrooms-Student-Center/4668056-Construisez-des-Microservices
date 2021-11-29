@@ -2,9 +2,7 @@ package com.ecommerce.micrommerce.web.controller;
 
 import com.ecommerce.micrommerce.web.dao.ProductDao;
 import com.ecommerce.micrommerce.web.model.Product;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,4 +24,10 @@ public class ProductController {
     public Product afficherUnProduit(@PathVariable int id) {
         return productDao.findById(id);
     }
+
+    @PostMapping(value = "/Produits")
+    public void ajouterProduit(@RequestBody Product product) {
+        productDao.save(product);
+    }
+
 }
