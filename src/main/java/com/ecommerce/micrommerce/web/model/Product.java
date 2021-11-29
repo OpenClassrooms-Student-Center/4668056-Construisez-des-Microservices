@@ -1,18 +1,19 @@
 package com.ecommerce.micrommerce.web.model;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 //@JsonFilter("monFiltreDynamique")
 @Entity
 public class Product {
     @Id
     private int id;
+    @Size(min = 3, max = 25)
     private String nom;
+    @Min(value = 1)
     private int prix;
 
     //information que nous ne souhaitons pas exposer

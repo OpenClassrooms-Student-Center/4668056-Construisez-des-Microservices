@@ -1,19 +1,15 @@
 package com.ecommerce.micrommerce.web.controller;
 
 import com.ecommerce.micrommerce.web.dao.ProductDao;
+import com.ecommerce.micrommerce.web.exceptions.ProduitIntrouvableException;
 import com.ecommerce.micrommerce.web.model.Product;
-import com.fasterxml.jackson.databind.ser.FilterProvider;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 public class ProductController {
@@ -42,17 +38,18 @@ public class ProductController {
 
     @GetMapping(value = "/Produits/{id}")
     public Product afficherUnProduit(@PathVariable int id) {
-        return productDao.findById(id);
+        Product produit = productDao.findById(id);
+        if(produit==null) throw new ProduitIntrouvableException("Le produit avec l'id " + id + " est INTROUVABLE. Écran Bleu si je pouvais.");
+        return produit;
     }
-
 
     @GetMapping(value = "test/produits/{prixLimit}")
     public List<Product> testeDeRequetes(@PathVariable int prixLimit) {
-        return productDao.findByPrixGreaterThan(400);
+        return productDao.findByPrixGreaterThan(prixLimit);
     }
 
     @PostMapping(value = "/Produits")
-    public ResponseEntity<Product> ajouterProduit(@RequestBody Product product) {
+    public ResponseEntity<Product> ajouterProduit(@RequestBody @Valid Product product) {
         Product productAdded = productDao.save(product);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
