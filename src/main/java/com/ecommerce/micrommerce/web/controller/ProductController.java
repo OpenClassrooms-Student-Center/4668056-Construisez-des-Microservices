@@ -24,15 +24,20 @@ public class ProductController {
         this.productDao = productDao;
     }
 
+    @DeleteMapping (value = "/Produits/{id}")
+    public void supprimerProduit(@PathVariable int id) {
+        productDao.deleteById(id);
+    }
+
+    @PutMapping (value = "/Produits")
+    public void updateProduit(@RequestBody Product product) {
+        productDao.save(product);
+    }
+
     //Récupérer la liste des produits
     @GetMapping("/Produits")
-    public MappingJacksonValue listeProduits() {
-        List<Product> produits = productDao.findAll();
-        SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("prixAchat");
-        FilterProvider listDeNosFiltres = new SimpleFilterProvider().addFilter("monFiltreDynamique", monFiltre);
-        MappingJacksonValue produitsFiltres = new MappingJacksonValue(produits);
-        produitsFiltres.setFilters(listDeNosFiltres);
-        return produitsFiltres;
+    public List<Product> listeProduits() {
+        return productDao.findAll();
     }
 
     @GetMapping(value = "/Produits/{id}")
@@ -40,12 +45,15 @@ public class ProductController {
         return productDao.findById(id);
     }
 
+
+    @GetMapping(value = "test/produits/{prixLimit}")
+    public List<Product> testeDeRequetes(@PathVariable int prixLimit) {
+        return productDao.findByPrixGreaterThan(400);
+    }
+
     @PostMapping(value = "/Produits")
     public ResponseEntity<Product> ajouterProduit(@RequestBody Product product) {
         Product productAdded = productDao.save(product);
-        if (Objects.isNull(productAdded)) {
-            return ResponseEntity.noContent().build();
-        }
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
