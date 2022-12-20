@@ -1,6 +1,7 @@
 package com.ecommerce.micrommerce.web.controller;
 
 import com.ecommerce.micrommerce.web.dao.ProductDao;
+import com.ecommerce.micrommerce.web.exceptions.ProduitGratuitException;
 import com.ecommerce.micrommerce.web.exceptions.ProduitIntrouvableException;
 import com.ecommerce.micrommerce.web.model.Product;
 import io.swagger.annotations.Api;
@@ -49,7 +50,7 @@ public class ProductController {
 
         List<Product> items = productDao.findAll();
         for (Product product : items) {
-        int marge = product.getPrix() - product.getPrixAchat();
+            int marge = product.getPrix() - product.getPrixAchat();
             result.put(product.toString(), marge);
         }
 
@@ -79,6 +80,10 @@ public class ProductController {
 
     @PostMapping(value = "/Produits")
     public ResponseEntity<Product> ajouterProduit(@RequestBody @Valid Product product) {
+        if (product.getPrix() == 0) {
+            throw new ProduitGratuitException("Le prix de vente ne doit pas être null");
+        }
+
         Product productAdded = productDao.save(product);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
