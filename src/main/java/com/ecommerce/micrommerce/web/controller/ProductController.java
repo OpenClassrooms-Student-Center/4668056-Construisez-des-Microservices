@@ -11,9 +11,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-@Api( "API pour les opérations CRUD sur les produits.")
+@Api("API pour les opérations CRUD sur les produits.")
 @RestController
 public class ProductController {
 
@@ -23,12 +25,12 @@ public class ProductController {
         this.productDao = productDao;
     }
 
-    @DeleteMapping (value = "/Produits/{id}")
+    @DeleteMapping(value = "/Produits/{id}")
     public void supprimerProduit(@PathVariable int id) {
         productDao.deleteById(id);
     }
 
-    @PutMapping (value = "/Produits")
+    @PutMapping(value = "/Produits")
     public void updateProduit(@RequestBody Product product) {
         productDao.save(product);
     }
@@ -39,11 +41,28 @@ public class ProductController {
         return productDao.findAll();
     }
 
+
+    //Calcule la marge de chaque produits
+    @GetMapping("/AdminProduits")
+    public Map<String, Integer> calculerMargeProduit() {
+        Map<String, Integer> result = new HashMap<>();
+
+        List<Product> items = productDao.findAll();
+        for (Product product : items) {
+        int marge = product.getPrix() - product.getPrixAchat();
+            result.put(product.toString(), marge);
+        }
+
+        return result;
+    }
+
+
     @ApiOperation(value = "Récupère un produit grâce à son ID à condition que celui-ci soit en stock!")
     @GetMapping(value = "/Produits/{id}")
     public Product afficherUnProduit(@PathVariable int id) {
         Product produit = productDao.findById(id);
-        if(produit==null) throw new ProduitIntrouvableException("Le produit avec l'id " + id + " est INTROUVABLE. Écran Bleu si je pouvais.");
+        if (produit == null)
+            throw new ProduitIntrouvableException("Le produit avec l'id " + id + " est INTROUVABLE. Écran Bleu si je pouvais.");
         return produit;
     }
 
