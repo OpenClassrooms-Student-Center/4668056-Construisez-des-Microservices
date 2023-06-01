@@ -72,7 +72,7 @@ public class ProductController {
 	public ResponseEntity<Product> ajouterProduit(@RequestBody @Valid Product product) {
 		if (product.getPrix() == 0)
 			throw new ProduitGratuitException(
-					"Le produit ne peut etre gratuit. Veuillez fournir un prix de vente supérieur à 0");
+					"Veuillez fournir un prix de vente supérieur à 0. Le produit ne peux pas être gratuit");
 		Product productAdded = productDao.save(product);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(productAdded.getId()).toUri();
