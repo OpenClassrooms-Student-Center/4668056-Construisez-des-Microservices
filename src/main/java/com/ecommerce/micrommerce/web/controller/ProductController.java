@@ -49,6 +49,7 @@ public class ProductController {
 	// Récupérer la liste des produits
 	@GetMapping("/Produits")
 	public List<Product> trierProduitsParOrdreAlphabetique() {
+
 		return productDao.findByOrderByNomAsc();
 	}
 
