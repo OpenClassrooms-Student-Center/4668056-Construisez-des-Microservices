@@ -4,8 +4,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,10 +67,10 @@ public class ProductController {
 	}
 
 	@PostMapping(value = "/Produits")
-	public ResponseEntity<Product> ajouterProduit(@RequestBody @Valid Product product) {
+	public ResponseEntity<Product> ajouterProduit(@RequestBody Product product) {
 		if (product.getPrix() == 0)
 			throw new ProduitGratuitException(
-					"Veuillez fournir un prix de vente supérieur à 0. Le produit ne peux pas être gratuit");
+					"Le produit ne peut etre gratuit. Veuillez fournir un prix de vente supérieur à 0");
 		Product productAdded = productDao.save(product);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(productAdded.getId()).toUri();
