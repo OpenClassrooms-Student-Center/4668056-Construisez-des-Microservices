@@ -82,6 +82,7 @@ public class ProductController {
             @Override
             public int compare(Product currentProduct, Product nextProduct) {
                 String s1 = currentProduct.getNom();
+
                 String s2 = nextProduct.getNom();
                 return s1.compareToIgnoreCase(s2);
             }
