@@ -12,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.*;
 
 @Api( "API pour les opérations CRUD sur les produits.")
 @RestController
@@ -63,11 +64,30 @@ public class ProductController {
         return ResponseEntity.created(location).build();
     }
 
-    
+    // TODO A RETIRER DE SWAGGER
+    @ApiOperation(value = "calculate margin on a product")
     @GetMapping(value = "/Produits/diff/{id}")
     public int calculerMargeProduit(@PathVariable int id){
         Product product = productDao.findById(id);
 
         return product.getPrix() - product.getPrixAchat();
+    }
+
+    @ApiOperation(value = "Récupérer la liste des produits triée par ordre alphabetique")
+    @GetMapping("/Produits/triaphabetique/")
+    public List<Product> trierProduitsParOrdreAlphabetique(){
+        List<Product> productList = productDao.findAll();
+        productList.sort(new Comparator<Product>() {
+
+            @Override
+            public int compare(Product currentProduct, Product nextProduct) {
+                String s1 = currentProduct.getNom();
+                String s2 = nextProduct.getNom();
+                return s1.compareToIgnoreCase(s2);
+            }
+
+        });
+
+        return productList;
     }
 }
