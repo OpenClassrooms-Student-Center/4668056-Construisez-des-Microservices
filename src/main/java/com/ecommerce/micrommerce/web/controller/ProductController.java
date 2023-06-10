@@ -62,4 +62,12 @@ public class ProductController {
                 .toUri();
         return ResponseEntity.created(location).build();
     }
+
+    
+    @GetMapping(value = "/Produits/diff/{id}")
+    public int calculerMargeProduit(@PathVariable int id){
+        Product product = productDao.findById(id);
+
+        return product.getPrix() - product.getPrixAchat();
+    }
 }
