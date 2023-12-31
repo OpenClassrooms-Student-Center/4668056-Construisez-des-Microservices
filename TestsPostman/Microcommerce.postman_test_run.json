@@ -1,0 +1,88 @@
+{
+	"id": "39dd090c-8278-445b-b33d-306d09bd8afc",
+	"name": "Microcommerce",
+	"timestamp": "2023-12-31T04:01:51.941Z",
+	"collection_id": "11886659-dfbfa1c5-4471-4030-8b87-59d9023a4022",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 0,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2023-12-31T04:01:51.258Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "e7d8e2a2-6ed9-4f6e-b023-e1dc2e9fa823",
+			"name": "AdminProduits",
+			"url": "http://localhost:9090/AdminProduits",
+			"time": 193,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				193
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "1d24debc-7d80-48f5-91bb-c243c80aab5b",
+			"name": "Trier Produits Par Ordre Alphabetique",
+			"url": "http://localhost:9090/trierProduitsParOrdreAlphabetique",
+			"time": 34,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				34
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "c92dd003-e510-4d15-9414-da760fa8615f",
+			"name": "Add Product",
+			"url": "http://localhost:9090/Produits",
+			"time": 10,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				10
+			],
+			"allTests": [
+				{}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 237,
+	"collection": {
+		"requests": [
+			{
+				"id": "e7d8e2a2-6ed9-4f6e-b023-e1dc2e9fa823",
+				"method": "GET"
+			},
+			{
+				"id": "1d24debc-7d80-48f5-91bb-c243c80aab5b",
+				"method": "GET"
+			},
+			{
+				"id": "c92dd003-e510-4d15-9414-da760fa8615f",
+				"method": "POST"
+			}
+		]
+	}
+}
