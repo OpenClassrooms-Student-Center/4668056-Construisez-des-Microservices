@@ -75,4 +75,8 @@ public class ProductController {
         }
         return resultMarge;
     }
+    @GetMapping("/trierProduitsParOrdreAlphabetique")
+    public List<Product> trierProduitsParOrdreAlphabetique() {
+        return productDao.findAllByOrderByNomAsc();
+    }
 }
